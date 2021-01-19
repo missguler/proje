@@ -6,6 +6,12 @@ output: pdf_document
 ---
 
 ```{r}
+#DENEMEEE
+```
+
+
+
+```{r}
 library(jsonlite)
 df1<-fromJSON("Desktop/ ist yazılım veri/clinical.cases_selection.2021-01-07.json")
 df2<-fromJSON("Desktop/ ist yazılım veri/biospecimen.cases_selection.2021-01-07.json")
