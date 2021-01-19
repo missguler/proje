@@ -1,0 +1,47 @@
+---
+title: "Untitled"
+author: "projee"
+date: "13 01 2021"
+output: pdf_document
+---
+
+```{r}
+library(jsonlite)
+df1<-fromJSON("Desktop/ ist yazılım veri/clinical.cases_selection.2021-01-07.json")
+df2<-fromJSON("Desktop/ ist yazılım veri/biospecimen.cases_selection.2021-01-07.json")
+df3<-fromJSON("Desktop/ ist yazılım veri/genes.2021-01-07.json")
+
+```
+
+```{r}
+df1$demographic<- df1$demographic[,-c(14:17,8)]
+```
+
+```{r}
+df$demographic<-df$demographic%>%mutate_if(is.character,as.factor)
+class(df$demographic$gender)
+```
+
+
+
+```{r}
+df1 <- as.data.frame(df1)
+df2 <- as.data.frame(df2)
+
+data1 <- data.frame(df1,df2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
