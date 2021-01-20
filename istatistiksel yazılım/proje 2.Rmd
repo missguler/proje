@@ -11,9 +11,6 @@ df1<-fromJSON("~/Desktop/ ist yazılım veri/clinical.cases_selection.2021-01-07
 df2<-fromJSON("~/Desktop/ ist yazılım veri/biospecimen.cases_selection.2021-01-07.json")
 df3<-fromJSON("~/Desktop/ ist yazılım veri/genes.2021-01-07.json")
 ```
-```{r}
-df1<-fromJSON("~/Desktop/ ist yazılım veri/clinical.cases_selection.2021-01-07.json")
-```
 
 
 ```{r}
@@ -21,6 +18,7 @@ df1$demographic<- df1$demographic[,-c(14:17,8)]
 ```
 
 ```{r}
+library(dplyr)
 df1$demographic<-df1$demographic%>%mutate_if(is.character,as.factor)
 class(df1$demographic$gender)
 ```
