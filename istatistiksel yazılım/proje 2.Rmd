@@ -19,11 +19,17 @@ df1$demographic<- df1$demographic[,-c(14:17,8)]
 
 ```{r}
 library(dplyr)
+library(lubridate)
 df1$demographic<-df1$demographic%>%mutate_if(is.character,as.factor)
-class(df1$demographic$gender)
+df1$demographic$year_of_death <-as.Date(as.character(df1$demographic$year_of_death),format="%Y")
+
+class(df1$demographic$year_of_death)
+
+df1$demographic$year_of_birth<-as.Date(as.character(df1$demographic$year_of_birth),format="%Y")
+class(df1$demographic$year_of_birth)
 ```
 
-
+## BURAYA RESİMLER GELECEK...
 ```{r}
 df1 <- as.data.frame(df1)
 df2 <- as.data.frame(df2)
