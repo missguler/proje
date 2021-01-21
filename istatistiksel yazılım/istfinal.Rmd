@@ -1,0 +1,192 @@
+---
+title: "Untitled"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+```{r}
+
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(summarytools)
+library(jsonlite)
+```
+
+
+
+```{r}
+library(jsonlite)
+df1<-fromJSON("C:/Users/Samsungs/Downloads/clinical.cases_selection.2021-01-07.json")
+
+df2<-fromJSON("C:/Users/Samsungs/Downloads/biospecimen.cases_selection.2021-01-07.json")
+df3<-fromJSON("C:/Users/Samsungs/Downloads/genes.2021-01-07.json")
+```
+
+```{r} 
+#veri içinde veri bulunmayan sütunları yani gereksiz sütunları çıkardım.
+df1$demographic <- df1$demographic[,-c(14:17,8)]
+```
+
+
+```{r}
+degisken <- c("df1$demographic$gender","df1$demographic$ethnicity","df1$demographic$race","df1$demographic$vital_status")
+df1$demographic=df1$demographic%>%mutate_at(degisken,as.factor)
+str(df1$demographic$gender)
+
+```
+
+
+```{r}
+#Dünya Sağlık Örgütünden aldığımız yaş aralıkları bazında hasta yaşlarını ergen-genç-orta-yaşlı olarak kademelere ayırdık.Daha sonra bu hastalık yaşlarının analizini yaptık. Bu bulduğumuz verilerin görselleştirmesini sağladık.
+df1$demographic = mutate(df1$demographic,hastalıkyas = case_when(df1$demographic$age_at_index<=17~"Ergen yaş aralığı",
+                                            df1$demographic$age_at_index>18 & df1$demographic$age_at_index<=65~"Genç yaş aralığı",
+                                            df1$demographic$age_at_index>66 & df1$demographic$age_at_index<=79~"Orta yaş aralığı",
+                                            df1$demographic$age_at_index>80 & df1$demographic$age_at_index<=99~"Yaşlı",
+                                            is.na(df1$demographic$age_at_index==TRUE)~NA_character_))
+
+table(df1$demographic$hastalıkyas)
+summary(df1$demographic$hastalıkyas)
+freq(df1$demographic$hastalıkyas)
+
+
+```
+
+```{r}
+#hastalık yaşlarının "Ergen yaş aralığı","Genç yaş aralığı","Orta yaş aralığı","Yaşlı" sırasıyla yapılması için bu kod kullanıldı:
+df1$demographic$hastalıkyas=ordered(df1$demographic$hastalıkyas, levels = c("Ergen yaş aralığı","Genç yaş aralığı","Orta yaş aralığı","Yaşlı"))
+```
+
+
+```{r}
+#yeni bir cinsiyet_grup değişkeni oluşturarak "female" kısmını türkçeleştirerek "kadın" olarak "male" kısmını "erkek" olarak atadım . daha sonra table komutu ile kadın ve erkek hasta sayısını bulduk. Bu bulduğumuz verilerin görselleştirilmesini sağladık.
+df1$demographic = df1$demographic%>%mutate(cinsiyet_grup = case_when(gender == "female"~"Kadın",gender =="male"~"Erkek",is.na(gender)==TRUE~NA_character_))
+table(df1$demographic$cinsiyet_grup)
+```
+
+
+
+```{r}
+#ölüm yıllarını 2000 ve öncesi ölüm , 2000 sonrası ölüm olarak iki ayrı duruma ayırdık. Daha sonra bu durumlarun frekanslarını bulduk.
+df1$demographic = mutate(df1$demographic,yıllaragöre = case_when(df1$demographic$year_of_death <=2000~"2000 ve öncesi ölüm",
+df1$demographic$year_of_death>2000 ~"2000 sonrası ölüm",
+
+is.na(df1$demographic$year_of_death==TRUE)~NA_character_))
+table(df1$demographic$yıllaragöre)
+freq(df1$demographic$yıllaragöre)
+
+```
+
+```{r}
+#184 kişi hem bu hastalıktan ölmüş ve cinsiyeti kadın olarak belirlenmiştir.
+hemkadınhemölü <-df1$demographic %>% filter(gender == "female", vital_status == "Dead")
+str(hemkadınhemölü)
+```
+
+
+```{r}
+#308 kişi hem bu hastalıktan ölmüş ve cinsiyeti erkek olarak belirlenmiştir
+hemerkekhemölü <-df1$demographic %>% filter(gender == "male", vital_status == "Dead")
+str(hemerkekhemölü)
+```
+
+```{r}
+#55 erkek bu hastalıkla mücadeleye yenik düşmeden hala savaşmaktadır.
+hemerkekhemyaşayan <-df1$demographic %>% filter(gender == "male", vital_status == "Alive")
+str(hemerkekhemyaşayan)
+```
+
+
+```{r}
+#46 kadın bu hastalıkla mücadeleye yenik düşmeden hala savaşmaktadır.
+hemkadınhemyaşayan <-df1$demographic %>% filter(gender == "female", vital_status == "Alive")
+str(hemkadınhemyaşayan)
+```
+
+
+```{r}
+#Beyaz ırktan ölen sayısını bulduk:
+hemölühemwhite <-df1$demographic %>% filter(race == "white", vital_status == "Dead")
+str(hemölühemwhite)
+table(hemölühemwhite)
+```
+
+
+```{r}
+#Yaşayan beyaz ırk sayısını bulduk
+hemyaşayanhemwhite <-df1$demographic %>% filter(race == "white", vital_status == "Alive")
+str(hemyaşayanhemwhite)
+
+```
+
+```{r}
+#Asyalı ölen sayısını bulduk:
+hemölühemasian<-df1$demographic %>% filter(race == "asian", vital_status == "Dead")
+str(hemölühemasian)
+```
+
+```{r}
+#Yaşayan Asyalı sayısını bulduk:
+hemyaşayanhemasian <-df1$demographic %>% filter(race == "asian", vital_status == "Alive")
+str(hemyaşayanhemasian)
+```
+
+
+
+```{r}
+#Ölü Afrikan Amerikan sayısını bulduk
+hemölühemblackorafricanamerican <-df1$demographic %>% filter(race == "black or african american", vital_status == "Dead")
+str(hemölühemblackorafricanamerican)
+```
+
+```{r}
+#Yaşayan Afrikan Amerikan sayısını bulduk:
+hemyaşayanhemblackorafricanamerican <-df1$demographic %>% filter(race == "black or african american", vital_status == "Alive")
+str(hemyaşayanhemblackorafricanamerican)
+```
+
+
+
+```{r}
+#Ölmüş ama ırkı raporlanmamış kişi sayısını bulduk:
+hemölühemnotreported <-df1$demographic %>% filter(race == "not reported", vital_status == "Dead")
+str(hemölühemnotreported)
+```
+
+```{r}
+#Yaşayan ama ırkı raporlanmamış kişi sayısını bulduk:
+hemyaşayanhemnotreported <-df1$demographic %>% filter(race == "not reported", vital_status == "Alive")
+str(hemyaşayanhemnotreported)
+```
+
+
+
+```{r}
+#ergen yaş aralığında ölen sayısını bulduk:
+hemölühemergen <-df1$demographic %>% filter(hastalıkyas =="Ergen yaş aralığı", vital_status == "Dead")
+str(hemölühemergen)
+```
+
+```{r}
+#2000 yılı sonrası ölen erkek sayısı:
+ ikibinsonrasıölüerkek<-df1$demographic %>% filter(  yıllaragöre == "2000 sonrası ölüm" , gender == "male")
+str(ikibinsonrasıölüerkek)
+
+#2000 yılı sonrası ölen kadın sayısı:
+ ikibinsonrasıölükadın<-df1$demographic %>% filter(  yıllaragöre == "2000 sonrası ölüm" , gender == "female")
+str(ikibinsonrasıölükadın)
+```
+
+
+```{r}
+#2000 yılı ve öncesi ölen erkek sayısı
+ikibinöncesiölüerkek<-df1$demographic %>% filter( yıllaragöre == "2000 öncesi ölüm" , gender == "male")
+str(ikibinöncesiölüerkek)
+
+#2000 yılı ve  öncesi ölen kadın sayısı
+ikibinöncesiölükadın<-df1$demographic %>% filter( yıllaragöre == "2000 sonrası ölüm" , gender == "female")
+str(ikibinöncesiölükadın)
+```
+
