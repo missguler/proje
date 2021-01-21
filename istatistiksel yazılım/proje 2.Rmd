@@ -13,6 +13,16 @@ df3<-fromJSON("~/Desktop/ ist yazılım veri/genes.2021-01-07.json")
 #b
 ```
 
+```{r}
+#sude
+df1<-fromJSON("C:/Users/Samsungs/Downloads/clinical.cases_selection.2021-01-07.json")
+
+df2<-fromJSON("C:/Users/Samsungs/Downloads/biospecimen.cases_selection.2021-01-07.json")
+df3<-fromJSON("C:/Users/Samsungs/Downloads/genes.2021-01-07.json")
+```
+
+
+
 
 ```{r}
 df1$demographic<- df1$demographic[,-c(14:17,8)]
