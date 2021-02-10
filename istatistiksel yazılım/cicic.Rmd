@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r, message=FALSE}
+
+#####
 library(jsonlite)
 df1<-fromJSON("son_medical.json")
 
@@ -103,15 +105,6 @@ library(tidyverse)
 library(ggplot2)
 
 
-aa<- df1$demographic %>% 
-  group_by(hastalikyas)%>%
-  filter(vital_status=="Dead")%>%
-  select(days_to_death,hastalikyas)  
-
-ggplot(aa, aes(x=hastalikyas))+geom_bar()
-
-
-
 
 n<- df1$demographic %>% 
   group_by(hastalikyas)%>%
@@ -120,15 +113,39 @@ n<- df1$demographic %>%
 
 ## bunlarla bar plot cizdircem cyber da ama henüz olmadý 
 head(n,29)
+df12 <- data.frame(x = n$gender,
+                 y = df10$n)           
 
 
-# trash code 
 
-cyber_bars(aa, area = FALSE, bg.col = "black")
 
-# trash code
 
-## devtools::install_github("R-CoderDotCom/cyberpunk")
+
+# burada datmizda kac kadin kac erkek var anlamaya calistik.
+df10<- df1$demographic %>% 
+   filter(vital_status=="Dead")%>%
+  group_by(gender)%>% 
+  count()
+df11 <- data.frame(x = df10$gender,
+                 y = df10$n)           
+
+cyber_bars(df11, area = FALSE, bg.col = "black")
+
+
+
+
+
+df8<- df1$demographic %>% 
+  group_by(hastalikyas)%>% 
+  count()
+
+df9 <- data.frame(x = df8$hastalikyas,
+                 y = df8$n)
+
+# Barplot
+cyber_bars(df9, area = FALSE, bg.col = "black")
+
+
 
 ```
 Datamizi tanimak amaciyla gozlemlerin hangi yas araliklarinda oldugunu anlamaya calistik
