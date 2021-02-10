@@ -1,0 +1,228 @@
+---
+title: "Duzenleme"
+author: "Eda Emanet"
+date: "10 02 2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+**Kutuphaneler**
+```{r}
+library(EBImage)
+library(jsonlite)
+library(MSMB)
+library(tiff)
+library(tiff)
+library(basetheme)
+library(ggCyberPunk)
+library(tidyverse)
+library(utf8)
+library(lubridate)
+library(dplyr)
+library(cyberpunk)
+
+library(ggplot2)
+```
+
+
+
+
+**Datayi Tanima**
+Oncellikle datayi cektik.
+```{r, message=FALSE}
+
+df1<-fromJSON("son_medical.json")
+
+df2<-fromJSON("son_bio.json")
+
+df3 <- fromJSON("son_gene.json")
+
+df1<- as.data.frame(df1)
+df2 <- as.data.frame(df2)
+data1<- data.frame(df1,df2)
+
+```
+
+
+
+
+**Kesifci Data Analizi**
+Datadaki mri goruntulerine goz atmak icin bir kacini ekledik.
+```{r}
+
+
+img = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y1.jpg")
+img1 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y2.jpg")
+img2 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y3.jpg")
+img4 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y4.jpg")
+img11 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y11.jpg")
+img6 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y6.jpg")
+img7 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y7.jpg")
+img8 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y8.jpg")
+img9 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y9.jpg")
+display(img)
+display(img1)
+display(img2)
+display(img4)
+display(img11)
+display(img6)
+display(img7)
+display(img8)
+display(img9)
+```
+```{r}
+
+attach(df1)
+df1$demographic <- df1$demographic[,-c(14:17,8)]
+df1$demographic <- df1$demographic %>%
+                 mutate_if(is.character,as.factor)
+
+df1$demographic$year_of_death <-as.Date(as.character(demographic$year_of_death),format="%Y")
+
+class(df1$demographic$year_of_death)
+
+df1$demographic$year_of_birth<-as.Date(as.character(demographic$year_of_birth),format="%Y")
+class(df1$demographic$year_of_birth)
+
+df1$demographic <- df1$demographic[,-c(14:17,8)]
+
+
+data1 <- data.frame(df1,df2)
+
+head(df1$demographic$weight)
+
+```
+
+
+
+
+```{r}
+df4<- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/GitHub/Brain Tumor.csv")
+
+
+d<-df4%>%
+  select(Homogeneity,Dissimilarity,Entropy,Mean,Variance)
+
+  
+basetheme("royal")
+pairs(d, bg=lab2col(df4$Class), col=0)
+```
+
+Datamizdaki mri goruntulerini daha iyi anlamak icin df4 deki dataframeden class hastaliga sahip ve sahip olmayan kisilerin mri goruntulerinin diger degiskenlerle olan iliskilerini anlamak icin grafik cizdirdik.
+
+
+
+```{r}
+library(ggplot2)
+library(ggridges)
+ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_density_ridges()
+```
+
+Datadaki demografik degiskenlere bakmak icin grafik cizdirdik.
+
+
+```{r}
+# remotes::install_github("R-CoderDotCom/ggcats@main")
+
+
+df1$demographic = mutate(df1$demographic,hastalikyas = case_when(df1$demographic$age_at_index<=17~"Ergen yas araligi",
+                                            df1$demographic$age_at_index>18 & df1$demographic$age_at_index<=65~"Genc yas araligi",
+                                            df1$demographic$age_at_index>66 & df1$demographic$age_at_index<=79~"Orta yas araligi",
+                                            df1$demographic$age_at_index>80 & df1$demographic$age_at_index<=99~"Yasli",
+                                            is.na(df1$demographic$age_at_index==TRUE)~NA_character_))
+
+table(df1$demographic$hastalikyas)
+```
+
+yaslari kendi aralarinda kategorilere ayirdik.
+
+```{r}
+df10<- df1$demographic %>% 
+   filter(vital_status=="Dead")%>%
+  group_by(gender)%>% 
+  count()
+df11 <- data.frame(x = df10$gender,
+                 y = df10$n)           
+
+cyber_bars(df11, area = FALSE, bg.col = "black")
+
+```
+Bu kisimda olen kisilerin cinsiyetlerini anlamaya calistik.
+
+```{r}
+df8<- df1$demographic %>%
+  filter(vital_status=="Dead")%>%
+  group_by(hastalikyas)%>% 
+  count()
+
+df9 <- data.frame(x = df8$hastalikyas,
+                 y = df8$n)
+
+# Barplot
+cyber_bars(df9, area = FALSE, bg.col = "black")
+
+
+```
+
+Bu kisimda ise hastalik yuzunden olen kisilerin yas araliklarina bakarak hangi yas araligindaki kisilerin daha cok vefat ettigini anlamaya calistik. Burada Genc yas araliginda daha cok olumu bulmak bizi sasirtti. Ama bunun sebebinin; datada gozlem sayisi olarak genc yastakilerin daha cok olmasina bagliyoruz.
+
+```{r}
+genc_olum <-df1$demographic%>%
+  filter(hastalikyas=="Genc yas araligi") %>%
+  filter(vital_status=="Dead") %>%
+  select(days_to_death,race,gender)
+
+
+ggplot(genc_olum, aes(x=race, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
+
+```
+Burada ise genc yasta olenlerin olumune kadar gecen surelerine baktik
+
+
+```{r}
+
+yasli_olum <-df1$demographic%>%
+  filter(hastalikyas=="Yasli") %>%
+  filter(vital_status=="Dead") %>%
+  select(days_to_death,race,gender)
+ggplot(yasli_olum, aes(x=race, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
+
+```
+Burada ise yasli olumlerinin olume kadar gecen surelerine baktik dikkatimizi irklarin beyaz olmasi cekti.
+
+
+```{r}
+
+
+df6 = data.frame(A=c(df1$demographic$age_at_index),
+               Time=c(df1$demographic$year_of_deat)) %>%
+pivot_longer(cols = c(A),names_to = "group", values_to = "count")
+
+
+library(ggCyberPunk)
+library(ggplot2)
+df6 %>%
+   ggplot(aes(x=Time, y = count, color = group, fill= group))+
+     geom_glowing_line()+
+     theme_cyberpunk()+
+     scale_color_cyberpunk()+
+  ggtitle("Yas Araliklarinda Olum Grafigi", subtitle = "Yillara Gore ")
+
+
+
+```
+
+Burada ise yillara gore hnagi yas araliklarinda olumlerine baktik. Zaman gectikce bu hastaliga yakalanan insanlarin yas aralignin genisledigini bulduk.
+
+
+
+
+
+
+
+
+
+
+
