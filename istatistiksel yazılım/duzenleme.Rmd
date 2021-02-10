@@ -22,7 +22,7 @@ library(utf8)
 library(lubridate)
 library(dplyr)
 library(cyberpunk)
-
+library(ggbernie)
 library(ggplot2)
 ```
 
@@ -169,16 +169,19 @@ cyber_bars(df9, area = FALSE, bg.col = "black")
 Bu kisimda ise hastalik yuzunden olen kisilerin yas araliklarina bakarak hangi yas araligindaki kisilerin daha cok vefat ettigini anlamaya calistik. Burada Genc yas araliginda daha cok olumu bulmak bizi sasirtti. Ama bunun sebebinin; datada gozlem sayisi olarak genc yastakilerin daha cok olmasina bagliyoruz.
 
 ```{r}
+
+
 genc_olum <-df1$demographic%>%
   filter(hastalikyas=="Genc yas araligi") %>%
   filter(vital_status=="Dead") %>%
-  select(days_to_death,race,gender)
+  select(age_at_index,days_to_death,race,gender)
+ggplot(genc_olum) +
+  geom_bernie(aes(age_at_index,days_to_death), bernie = "young")
 
 
-ggplot(genc_olum, aes(x=race, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
 
 ```
-Burada ise genc yasta olenlerin olumune kadar gecen surelerine baktik
+Burada ise genc yasta olenlerin teshisten- olumune kadar gecen surelerine baktik
 
 
 ```{r}
@@ -186,11 +189,17 @@ Burada ise genc yasta olenlerin olumune kadar gecen surelerine baktik
 yasli_olum <-df1$demographic%>%
   filter(hastalikyas=="Yasli") %>%
   filter(vital_status=="Dead") %>%
-  select(days_to_death,race,gender)
-ggplot(yasli_olum, aes(x=race, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
+  select(days_to_death,race,gender,age_at_index)
+
+
+ggplot(yasli_olum) +
+  geom_bernie(aes(age_at_index,days_to_death), bernie = "head")
+
+
+
 
 ```
-Burada ise yasli olumlerinin olume kadar gecen surelerine baktik dikkatimizi irklarin beyaz olmasi cekti.
+Burada ise yasli olumlerinin olume kadar gecen surelerine baktik genis bir skalada olmasi ilgimizi cekti.
 
 
 ```{r}
