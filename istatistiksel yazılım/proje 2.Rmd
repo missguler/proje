@@ -10,6 +10,15 @@ library(jsonlite)
 df1<-fromJSON("~/Desktop/ ist yazılım veri/clinical.cases_selection.2021-01-07.json")
 df2<-fromJSON("~/Desktop/ ist yazılım veri/biospecimen.cases_selection.2021-01-07.json")
 df3<-fromJSON("~/Desktop/ ist yazılım veri/genes.2021-01-07.json")
+
+```
+
+```{r}
+#sude
+df1<-fromJSON("C:/Users/Samsungs/Downloads/clinical.cases_selection.2021-01-07.json")
+
+df2<-fromJSON("C:/Users/Samsungs/Downloads/biospecimen.cases_selection.2021-01-07.json")
+df3<-fromJSON("C:/Users/Samsungs/Downloads/genes.2021-01-07.json")
 ```
 
 
@@ -19,17 +28,54 @@ df1$demographic<- df1$demographic[,-c(14:17,8)]
 
 ```{r}
 library(dplyr)
+library(lubridate)
 df1$demographic<-df1$demographic%>%mutate_if(is.character,as.factor)
-class(df1$demographic$gender)
+df1$demographic$days_to_death<-as.Date(as.character(df1$demographic$days_to_death),format="%Y")
+class(df1$demographic$days_to_death)
+
+df1$demographic$year_of_birth<-as.Date(as.character(df1$demographic$year_of_birth),format="%Y")
+class(df1$demographic$year_of_birth)
+str(df1$demographic)
+str(df1$demographic$ethnicity)
+#df1$demographic$race
 ```
 
-
+## BURAYA RESİMLER GELECEK...
 ```{r}
 df1 <- as.data.frame(df1)
 df2 <- as.data.frame(df2)
 
 data1 <- data.frame(df1,df2)
 ```
+
+```{r}
+df1$demographic = mutate(df1$demographic,hastalikyas = case_when(df1$demographic$age_at_index<=17~"Ergen yas araligi",
+                                            df1$demographic$age_at_index>18 & df1$demographic$age_at_index<=65~"Genc yas aralıgı",
+                                            df1$demographic$age_at_index>66 & df1$demographic$age_at_index<=79~"Orta yas araligi",
+                                            df1$demographic$age_at_index>80 & df1$demographic$age_at_index<=99~"Yasli", 
+                                            is.na(df1$demographic$age_at_index==TRUE)~NA_character_))
+table(df1$demographic$hastalikyas)
+```
+```{r}
+library(ggplot2)
+m<- df1$demographic %>% 
+   filter(vital_status=="Dead") %>%
+     select(hastalikyas,days_to_death)
+ggplot(m,aes(x=hastalikyas,y=days_to_death))+geom_boxplot()
+
+ggplot(m,aes(x=hastalikyas))+
+  geom_density(fill="purple")
+df1$demographic$ethnicity
+```
+
+```{r}
+library(ggridges)
+ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_density_ridges()
+```
+
+
+
+
 
 
 
