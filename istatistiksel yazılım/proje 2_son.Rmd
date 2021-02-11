@@ -815,7 +815,6 @@ str_view(pten1, pattern = patten7, match = TRUE)
 patten8 <- ("t") %R% ("a") %R% ("t")
 
 str_view(pten1, pattern = patten8, match = TRUE)
-
 ```
 
 
