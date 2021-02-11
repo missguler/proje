@@ -1,15 +1,19 @@
 ---
-title: "Shiny group work sheet "
+title: 'Shiny group work sheet '
 author: "Eda Emanet"
 date: "07 01 2021"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
 ```
 
-
+**Datayi Tanima**
+Oncellikle datayi cektik.
 ```{r, message=FALSE}
 
 #####
@@ -24,10 +28,10 @@ df1<- as.data.frame(df1)
 df2 <- as.data.frame(df2)
 data1<- data.frame(df1,df2)
 
-```
+remotes::install_github("R-CoderDotCom/ggbernie@main")
+# calýstýr
+data2 <-fromJSON("cases.2021-02-11.json")
 
-
-```{r}
 library(MSMB)
 library(EBImage)
 library(tiff)
@@ -53,6 +57,18 @@ display(img7)
 display(img8)
 display(img9)
 ```
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("BiocGenerics")
+```
+
+
+
+
+
 
 ```{r}
 library(utf8)
@@ -199,24 +215,26 @@ Datamizdaki mri goruntulerini daha iyi anlamak icin df4 deki dataframeden class 
 
 
 ```{r}
-
+df1$demographic$age_at_index
 genc_olum <-df1$demographic%>%
   filter(hastalikyas=="Genc yas araligi") %>%
   filter(vital_status=="Dead") %>%
-  select(days_to_death,race,gender)
-df1$demographic$gender
+  select(age_at_index,days_to_death,race,gender)
+library(ggbernie)
 
-ggplot(genc_olum, aes(x=race, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
+ggplot(genc_olum, aes(x=age_at_index, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
 
-
+ggplot(genc_olum) +
+  geom_bernie(aes(age_at_index,days_to_death), bernie = "young")
 
 yasli_olum <-df1$demographic%>%
   filter(hastalikyas=="Yasli") %>%
   filter(vital_status=="Dead") %>%
-  select(days_to_death,race,gender)
+  select(days_to_death,race,gender,age_at_index)
 ggplot(yasli_olum, aes(x=race, y=days_to_death, fill=gender)) + geom_col(position = "dodge")
 
-
+ggplot(yasli_olum) +
+  geom_bernie(aes(age_at_index,days_to_death), bernie = "head")
 ```
 Burada gencler ve yaslilar arasinda vefat etmis kislerin irklarini incelemek istedik.
 
@@ -250,6 +268,219 @@ df6 %>%
 ```
 
 
+```{r}
+library(ggplot2)
+library(ggridges)
+ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_density_ridges()
+```
+
+```{r}
+df3$is_cancer_gene_census
+
+library(tidyverse)
+kanser_geni <- df3 %>%
+             filter(is_cancer_gene_census == "true")%>%
+             count()
+
+```
+
+
+```{r}
+head(df3$is_cancer_gene_census,50)
+
+lm(df1$demographic$days_to_death ~ df1$demographic$gender + df1$demographic$age_at_index )
+
+df3$is_cancer_gene_census
+
+head(df2$samples,5)
+
+df2$samples[,1]
+
+df2$samples["intermediate_dimension"]
+```
+
+
+```{r}
+PIK3R1 <- read.table("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/PIK3R1.txt", quote="\"")
+Pten <- read.delim("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/Pten.txt")
+library(stringi)
+library(rebus)
+library(stringr)
+
+
+#datayi tanimaya calisiyoruz.
+nchar(Pten)
+head(Pten)
+
+nchar(Pten)-nchar(PIK3R1)
+#burada ilgilendigim iki  gen dizliminin uzunluk farkini anlamaya calistim.
+pten_Pik_uzunluk <- str_length(Pten)-str_length(PIK3R1)
+
+str_sub(Pten, 1, 10)
+
+pten1 <- Pten[-1,]
+head(pten1)
+
+
+str_subset(pten1, pattern = fixed("ttctctgaga"))
+
+
+# Bu ifadeden kac tane oldugunu saydirdik.
+ttc_sayisi <- str_count(pten1, pattern = fixed("ttaaaaatta"))
+
+
+# burada gen dizilimi icindeki yerini saptiyoruz. Beyaz ekran cikiyor ordan gri sekilde gozuken istedigimiz pattern
+str_view_all(pten1,pattern = fixed("ttaaaaatta"))
+
+
+pattern1 <-START%R% ("caacccttat") %R%END
+str_view(Pten, pattern = fixed("caacccttat"))
+
+
+pattern2 <- "c" %R% ANY_CHAR %R% "t"
+yeni<- str_subset(Pten, pattern2)
+
+```
+
+
+
+
+
+```{r}
+ PIK3R1 <- read.table("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/PIK3R1.txt", quote="\"")
+pattern1 <-START%R% ("caacccttat") %R%END
+str_view(PIK3R1, pattern =pattern1)
+
+str_subset(PIK3R1, pattern = fixed("TTTAAACGTGAA"))
+str_count(PIK3R1, pattern = fixed("AACC"))
+ATGCATAACCTGCAAACACTGCCTCCTAAACCACCAAAACC
+
+str_subset(PIK3R1, pattern = fixed("ATGCATAACCTG"))
+
+str_length(Pten)
+
+
+pattern2 <- zero_or_more(separator) %R% "ggagttaggc" %R%zero_or_more(separator)
+str_subset(pten1, pattern = pattern2)
+
+
+# kac tane sadece o kismin oldugunu soyler
+pho<- str_match(pten1, pattern=pattern2)
+pho
+
+
+```
+
+```{r}
+#### guzel kod ###
+
+pattern2 <- zero_or_more(separator) %R% "ggagttaggc" %R%zero_or_more(separator)
+
+who <- str_extract(pten1, pattern=pattern2)
+
+# Let's see what we have
+unique(who)
+table(who)
+
+```
+
+###################################################################################
+Calismaya gecme
+
+```{r}
+Pten <- read.delim("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/Pten.txt")
+nchar(Pten)
+head(Pten)
+pten1 <- Pten[-1,]
+head(pten1)
+
+# Pten genindeki t varyasyonlari
+
+pattern_t_pten <- zero_or_more(separator) %R% one_or_more("t") %R%zero_or_more(separator)
+pten_pt <- str_extract(pten1, pattern=pattern_t_pten)
+
+table(pten_pt)
+
+# Pten genindeki t sayisi
+pten_pt_count <- str_count(pten1, pattern=pattern_t_pten)
+
+pten_pt_count <-sum(pten_pt_count)
+
+# Pten genindeki a varyasyonlari
+
+pattern_aa_pten <- zero_or_more(separator) %R% one_or_more("a") %R%zero_or_more(separator)
+pten_paa <- str_extract(pten1, pattern=pattern_aa_pten)
+
+table(pten_paa)
+
+# Pten genindeki t sayisi
+pten_paa_count <- str_count(pten1, pattern=pattern_aa_pten)
+
+pten_paa_count <-sum(pten_paa_count)
+
+# Pten genindeki g varyasyonlari
+
+pattern_g_pten <- zero_or_more(separator) %R% one_or_more("g") %R%zero_or_more(separator)
+pten_pg <- str_extract(pten1, pattern=pattern_g_pten)
+
+table(pten_pg)
+
+# Pten genindeki g sayisi
+pten_pg_count <- str_count(pten1, pattern=pattern_g_pten)
+
+pten_pg_count <- sum(pten_pg_count)
+
+
+# Pten genindeki c varyasyonlari
+
+pattern_c_pten <- zero_or_more(separator) %R% one_or_more("c") %R%zero_or_more(separator)
+pten_pc <- str_extract(pten1, pattern=pattern_c_pten)
+
+table(pten_pc)
+
+# Pten genindeki c sayisi
+pten_pc_count <- str_count(pten1, pattern=pattern_c_pten)
+
+pten_pc_count <- sum(pten_pc_count)
+
+table(pten_paa_count,pten_pg_count ,pten_pc_count ,pten_pt_count )
+
+# A T G C nin sayilarinin gorselleþtirilmesi :
+
+pten_nuk_dizilim  <- data.frame(nuk_sayi =c(pten_paa_count,pten_pg_count ,pten_pc_count,pten_pt_count) , nuk_adi = c("A", "G","C","T"))
+
+hist(pten_nuk_dizilim$nuk_sayi)
+ggplot(pten_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) +geom_point()
+
+
+
+
+
+######################################################################################
+
+
+
+pattern_1_pten <- zero_or_more(separator) %R% "aggtgctgtt" %R%zero_or_more(separator)
+
+pten_p1 <- str_extract(pten1, pattern=pattern_1_pten)
+
+table(pten_p1)
+
+
+pattern_2_pten <- zero_or_more(separator) %R% "ttttgtgatg" %R%zero_or_more(separator)
+
+pten_p2 <- str_extract(pten1, pattern=pattern_2_pten)
+table(pten_p2)
+
+
+```
+
+NF1
+```{r}
+nf1 <- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/NF1.txt")
+nchar(nf1)
+head(nf1)
+ str_replace(nf1, pattern = " ", replace = "")
 
 
 
@@ -258,16 +489,7 @@ df6 %>%
 
 
 
-
-
-
-
-
-
-
-
-
-
+```
 
 
 

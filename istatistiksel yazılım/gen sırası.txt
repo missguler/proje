@@ -1,0 +1,59 @@
+pten 
+
+EGFR --
+
+NF1---
+HUMP13KIN ----
+
+PIK3R1 ///
+TP53 ////
+FLG /////
+
+MUC16 //////
+
+ RYR2 ///////
+TTN ////////
+
+PKHD1
+/////////
+
+HMCN1
+?
+
+SYNE1
+??
+
+SPTA1 
+???
+
+PIK3R1
++
+
+RB1
+++
+
+
+ATRX
++++
+
+
+
+PIK3CA
+++++
+
+OBSCN
+(
+
+
+APOB
+=
+
+FLG2
+*	
+
+LRP2
+**
+
+
+
+
