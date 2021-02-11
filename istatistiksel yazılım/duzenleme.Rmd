@@ -30,6 +30,7 @@ library(dplyr)
 library(cyberpunk)
 library(ggbernie)
 library(ggplot2)
+library(gghighcontrast)
 ```
 
 
@@ -133,7 +134,49 @@ library(ggridges)
 ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_density_ridges()
 ```
 
-Datadaki demografik degiskenlere bakmak icin grafik cizdirdik.
+Datadaki irk  degiskenine bakmak icin grafik cizdirdik.
+
+
+```{r}
+library(ggplot2)
+library(gghighcontrast)
+
+data<-df1$demographic %>%
+  select(gender,race,age_at_index ,vital_status , ethnicity)
+
+
+plot_bar_high_contrast <-
+  function(x,
+           foreground_color = "#ff6700",
+           background_color = "white") {
+    plot <- ggplot(data, aes(x = x, y= age_at_index,fill=gender)) +
+      geom_bar(stat = "identity",
+               position = position_dodge()) +
+      geom_hline(yintercept = 0,
+                 color = foreground_color,
+                 size = 1) +
+      theme_high_contrast(
+        base_family = "InputMono",
+        foreground_color = foreground_color,
+        background_color = background_color 
+      ) +
+      scale_fill_high_contrast(foreground_color = foreground_color) +
+      labs(title = paste0("Demografik degiskenlerin"),
+           subtitle =paste0("yaslara gore dagilimi"),
+           caption = "Gliomas Data")
+    return(plot)
+  }
+p <- plot_bar_high_contrast(data$vital_status)
+p
+
+```
+
+Buradaka ise demografik degiskenlerin yasa gore dagilimlarini bulabilmek icin  grafik cizdiren bir fonk yazdik.
+
+
+
+
+
 
 
 ```{r}
@@ -141,9 +184,9 @@ Datadaki demografik degiskenlere bakmak icin grafik cizdirdik.
 
 
 df1$demographic = mutate(df1$demographic,hastalikyas = case_when(df1$demographic$age_at_index<=17~"Ergen yas araligi",
-                                            df1$demographic$age_at_index>18 & df1$demographic$age_at_index<=65~"Genc yas araligi",
-                                            df1$demographic$age_at_index>66 & df1$demographic$age_at_index<=79~"Orta yas araligi",
-                                            df1$demographic$age_at_index>80 & df1$demographic$age_at_index<=99~"Yasli",
+                                            df1$demographic$age_at_index>18 & df1$demographic$age_at_index<=45~"Genc yas araligi",
+                                            df1$demographic$age_at_index>46 & df1$demographic$age_at_index<=65~"Orta yas araligi",
+                                            df1$demographic$age_at_index>65 & df1$demographic$age_at_index<=100~"Yasli",
                                             is.na(df1$demographic$age_at_index==TRUE)~NA_character_))
 
 table(df1$demographic$hastalikyas)
@@ -173,7 +216,7 @@ df8<- df1$demographic %>%
 df9 <- data.frame(x = df8$hastalikyas,
                  y = df8$n)
 
-# Barplot
+
 cyber_bars(df9, area = FALSE, bg.col = "black")
 
 
