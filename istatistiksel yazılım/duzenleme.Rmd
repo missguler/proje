@@ -4,9 +4,14 @@ author: "Eda Emanet"
 date: "10 02 2021"
 output:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   pdf_document: default
   html_document:
     df_print: paged
+=======
+  word_document: default
+  pdf_document: default
+>>>>>>> Stashed changes
 =======
   word_document: default
   pdf_document: default
@@ -90,7 +95,10 @@ display(img9)
 ```
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 ```{r}
