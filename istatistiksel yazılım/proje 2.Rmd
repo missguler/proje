@@ -14,6 +14,18 @@ df3<-fromJSON("~/Desktop/ ist yazılım veri/genes.2021-01-07.json")
 ```
 
 ```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("BiocGenerics")
+```
+
+
+
+
+
+
+```{r}
 #sude
 df1<-fromJSON("C:/Users/Samsungs/Downloads/clinical.cases_selection.2021-01-07.json")
 
@@ -35,9 +47,9 @@ class(df1$demographic$days_to_death)
 
 df1$demographic$year_of_birth<-as.Date(as.character(df1$demographic$year_of_birth),format="%Y")
 class(df1$demographic$year_of_birth)
-str(df1$demographic)
+str(df1$demographic$race)
 str(df1$demographic$ethnicity)
-#df1$demographic$race
+df1$demographic$race
 ```
 
 ## BURAYA RESİMLER GELECEK...
@@ -56,26 +68,55 @@ df1$demographic = mutate(df1$demographic,hastalikyas = case_when(df1$demographic
                                             is.na(df1$demographic$age_at_index==TRUE)~NA_character_))
 table(df1$demographic$hastalikyas)
 ```
+
 ```{r}
 library(ggplot2)
 m<- df1$demographic %>% 
    filter(vital_status=="Dead") %>%
      select(hastalikyas,days_to_death)
 ggplot(m,aes(x=hastalikyas,y=days_to_death))+geom_boxplot()
+ggplot(m,aes())
 
 ggplot(m,aes(x=hastalikyas))+
   geom_density(fill="purple")
-df1$demographic$ethnicity
+
+```
+
+
+```{r}
+df3$name #bulunduklaı bölge
+df3$is_cancer_gene_census
+
+nums = unlist(lapply(data1, is.numeric))
+
+for(i in colnames(data1[,nums]))
+{
+  plot=data1%>%filter(is.na(demographic$exposures)==FALSE)%>%
+  ggplot(df1$demographic,aes_string(x = df1$demographic$ethnicity,y =i,fill = df1$demographic$ethnicity))+geom_boxplot()
+  print(plot)
+}
+df1$exposures
 ```
 
 ```{r}
-library(ggridges)
-ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_density_ridges()
+str_subset(df3, pattern=fixed("acyltransferase"))
 ```
 
 
+```{r}
+str(df3$is_cancer_gene_census)
+which(df3$is_cancer_gene_census=="true")
+```
 
+```{r}
+library(readr)
+Brain_Tumor <- read_csv("~/Desktop/Brain Tumor.csv")
+View(Brain_Tumor)
+```
 
+```{r}
+attach(df1)
+```
 
 
 

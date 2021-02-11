@@ -3,9 +3,14 @@ title: "Duzenleme"
 author: "Eda Emanet"
 date: "10 02 2021"
 output:
+<<<<<<< Updated upstream
   pdf_document: default
   html_document:
     df_print: paged
+=======
+  word_document: default
+  pdf_document: default
+>>>>>>> Stashed changes
 ---
 
 ```{r setup, include=FALSE}
@@ -84,7 +89,10 @@ display(img9)
 
 ```
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 ```{r}
 
 attach(df1)
