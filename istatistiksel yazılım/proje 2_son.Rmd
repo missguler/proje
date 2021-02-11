@@ -576,9 +576,271 @@ tp53_nuk_dizilim  <- data.frame(tp53_nuk_sayi =c(tp53_paa_count,tp53_pg_count ,t
 
 
 ggplot(tp53_nuk_dizilim,aes(x=tp53_nuk_adi,y =tp53_nuk_sayi) ) +geom_point()
-
-
 ```
+
+```{r}
+hump <- read_csv("~/Desktop/HUMP13KIN.txt")
+nchar(hump)
+head(hump)
+head(hump)
+
+# hump genindeki t varyasyonlari
+separator <- char_class(" ")
+pattern_t_hump <- zero_or_more(separator) %R% one_or_more("t") %R%zero_or_more(separator)
+hump_pt <- str_extract(hump, pattern=pattern_t_hump)
+
+table(hump_pt)
+
+# hump genindeki t sayisi
+hump_pt_count <- str_count(hump, pattern=pattern_t_hump)
+
+hump_pt_count <-sum(hump_pt_count)
+
+# hump genindeki a varyasyonlari
+
+pattern_aa_hump <- zero_or_more(separator) %R% one_or_more("a") %R%zero_or_more(separator)
+hump_paa <- str_extract(hump, pattern=pattern_aa_hump)
+
+table(hump_paa)
+
+# hump genindeki t sayisi
+hump_paa_count <- str_count(hump, pattern=pattern_aa_hump)
+
+hump_paa_count <-sum(hump_paa_count)
+
+# hump genindeki g varyasyonlari
+
+pattern_g_hump <- zero_or_more(separator) %R% one_or_more("g") %R%zero_or_more(separator)
+hump_pg <- str_extract(hump, pattern=pattern_g_hump)
+
+table(hump_pg)
+
+# hump genindeki g sayisi
+hump_pg_count <- str_count(hump, pattern=pattern_g_hump)
+
+hump_pg_count <- sum(hump_pg_count)
+
+
+# hump genindeki c varyasyonlari
+
+pattern_c_hump <- zero_or_more(separator) %R% one_or_more("c") %R%zero_or_more(separator)
+hump_pc <- str_extract(hump, pattern=pattern_c_hump)
+
+table(hump_pc)
+
+# hump genindeki c sayisi
+hump_pc_count <- str_count(hump, pattern=pattern_c_hump)
+
+hump_pc_count <- sum(hump_pc_count)
+
+table(hump_paa_count,hump_pg_count ,hump_pc_count ,hump_pt_count )
+
+# A T G C nin sayilarinin gorselle?tirilmesi :
+
+hump_nuk_dizilim  <- data.frame(nuk_sayi =c(hump_paa_count,hump_pg_count ,hump_pc_count,hump_pt_count) , nuk_adi = c("A", "G","C","T"))
+
+ggplot(hump_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) +geom_point()
+```
+
+```{r}
+flg <- read_csv("~/Desktop/FLG.txt")
+```
+
+```{r}
+nchar(flg)
+head(flg)
+head(flg)
+
+# flg genindeki t varyasyonlari
+separator <- char_class(" ")
+pattern_t_flg <- zero_or_more(separator) %R% one_or_more("t") %R%zero_or_more(separator)
+flg_pt <- str_extract(flg, pattern=pattern_t_flg)
+
+table(flg_pt)
+
+# flg genindeki t sayisi
+flg_pt_count <- str_count(flg, pattern=pattern_t_flg)
+
+flg_pt_count <-sum(flg_pt_count)
+
+# flg genindeki a varyasyonlari
+
+pattern_aa_flg <- zero_or_more(separator) %R% one_or_more("a") %R%zero_or_more(separator)
+flg_paa <- str_extract(flg, pattern=pattern_aa_flg)
+
+table(flg_paa)
+
+# flg genindeki t sayisi
+flg_paa_count <- str_count(flg, pattern=pattern_aa_flg)
+
+flg_paa_count <-sum(flg_paa_count)
+
+# flg genindeki g varyasyonlari
+
+pattern_g_flg <- zero_or_more(separator) %R% one_or_more("g") %R%zero_or_more(separator)
+flg_pg <- str_extract(flg, pattern=pattern_g_flg)
+
+table(flg_pg)
+
+# flg genindeki g sayisi
+flg_pg_count <- str_count(flg, pattern=pattern_g_flg)
+
+flg_pg_count <- sum(flg_pg_count)
+
+
+# flg genindeki c varyasyonlari
+
+pattern_c_flg <- zero_or_more(separator) %R% one_or_more("c") %R%zero_or_more(separator)
+flg_pc <- str_extract(flg, pattern=pattern_c_flg)
+
+table(flg_pc)
+
+# flg genindeki c sayisi
+flg_pc_count <- str_count(flg, pattern=pattern_c_flg)
+
+flg_pc_count <- sum(flg_pc_count)
+
+table(flg_paa_count,flg_pg_count ,flg_pc_count ,flg_pt_count )
+
+# A T G C nin sayilarinin gorselle?tirilmesi :
+
+flg_nuk_dizilim  <- data.frame(nuk_sayi =c(flg_paa_count,flg_pg_count ,flg_pc_count,flg_pt_count) , nuk_adi = c("A", "G","C","T"))
+
+ggplot(flg_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) +geom_point()
+```
+
+```{r}
+muc16 <- read_csv("~/Desktop/muc16.txt")
+```
+
+```{r}
+nchar(muc16)
+head(muc16)
+head(muc16)
+
+# muc16 genindeki t varyasyonlari
+separator <- char_class(" ")
+pattern_t_muc16 <- zero_or_more(separator) %R% one_or_more("t") %R%zero_or_more(separator)
+muc16_pt <- str_extract(muc16, pattern=pattern_t_muc16)
+
+table(muc16_pt)
+
+# muc16 genindeki t sayisi
+muc16_pt_count <- str_count(muc16, pattern=pattern_t_muc16)
+
+muc16_pt_count <-sum(muc16_pt_count)
+
+# muc16 genindeki a varyasyonlari
+
+pattern_aa_muc16 <- zero_or_more(separator) %R% one_or_more("a") %R%zero_or_more(separator)
+muc16_paa <- str_extract(muc16, pattern=pattern_aa_muc16)
+
+table(muc16_paa)
+
+# muc16 genindeki t sayisi
+muc16_paa_count <- str_count(muc16, pattern=pattern_aa_muc16)
+
+muc16_paa_count <-sum(muc16_paa_count)
+
+# muc16 genindeki g varyasyonlari
+
+pattern_g_muc16 <- zero_or_more(separator) %R% one_or_more("g") %R%zero_or_more(separator)
+muc16_pg <- str_extract(muc16, pattern=pattern_g_muc16)
+
+table(muc16_pg)
+
+# muc16 genindeki g sayisi
+muc16_pg_count <- str_count(muc16, pattern=pattern_g_muc16)
+
+muc16_pg_count <- sum(muc16_pg_count)
+
+
+# muc16 genindeki c varyasyonlari
+
+pattern_c_muc16 <- zero_or_more(separator) %R% one_or_more("c") %R%zero_or_more(separator)
+muc16_pc <- str_extract(muc16, pattern=pattern_c_muc16)
+
+table(muc16_pc)
+
+# muc16 genindeki c sayisi
+muc16_pc_count <- str_count(muc16, pattern=pattern_c_muc16)
+
+muc16_pc_count <- sum(muc16_pc_count)
+
+table(muc16_paa_count,muc16_pg_count ,muc16_pc_count ,muc16_pt_count )
+
+# A T G C nin sayilarinin gorselle?tirilmesi :
+
+muc16_nuk_dizilim  <- data.frame(nuk_sayi =c(muc16_paa_count,muc16_pg_count ,muc16_pc_count,muc16_pt_count) , nuk_adi = c("A", "G","C","T"))
+
+ggplot(muc16_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) +geom_point()
+```
+
+```{r}
+ttn <- read_csv("~/Desktop/ttn.txt")
+
+nchar(ttn)
+head(ttn)
+head(ttn)
+
+# ttn genindeki t varyasyonlari
+separator <- char_class(" ")
+pattern_t_ttn <- zero_or_more(separator) %R% one_or_more("t") %R%zero_or_more(separator)
+ttn_pt <- str_extract(ttn, pattern=pattern_t_ttn)
+
+table(ttn_pt)
+
+# ttn genindeki t sayisi
+ttn_pt_count <- str_count(ttn, pattern=pattern_t_ttn)
+
+ttn_pt_count <-sum(ttn_pt_count)
+
+# ttn genindeki a varyasyonlari
+
+pattern_aa_ttn <- zero_or_more(separator) %R% one_or_more("a") %R%zero_or_more(separator)
+ttn_paa <- str_extract(ttn, pattern=pattern_aa_ttn)
+
+table(ttn_paa)
+
+# ttn genindeki t sayisi
+ttn_paa_count <- str_count(ttn, pattern=pattern_aa_ttn)
+
+ttn_paa_count <-sum(ttn_paa_count)
+
+# ttn genindeki g varyasyonlari
+
+pattern_g_ttn <- zero_or_more(separator) %R% one_or_more("g") %R%zero_or_more(separator)
+ttn_pg <- str_extract(ttn, pattern=pattern_g_ttn)
+
+table(ttn_pg)
+
+# ttn genindeki g sayisi
+ttn_pg_count <- str_count(ttn, pattern=pattern_g_ttn)
+
+ttn_pg_count <- sum(ttn_pg_count)
+
+
+# ttn genindeki c varyasyonlari
+
+pattern_c_ttn <- zero_or_more(separator) %R% one_or_more("c") %R%zero_or_more(separator)
+ttn_pc <- str_extract(ttn, pattern=pattern_c_ttn)
+
+table(ttn_pc)
+
+# ttn genindeki c sayisi
+ttn_pc_count <- str_count(ttn, pattern=pattern_c_ttn)
+
+ttn_pc_count <- sum(ttn_pc_count)
+
+table(ttn_paa_count,ttn_pg_count ,ttn_pc_count ,ttn_pt_count )
+
+# A T G C nin sayilarinin gorselle?tirilmesi :
+
+ttn_nuk_dizilim  <- data.frame(nuk_sayi =c(ttn_paa_count,ttn_pg_count ,ttn_pc_count,ttn_pt_count) , nuk_adi = c("A", "G","C","T"))
+
+ggplot(ttn_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) +geom_point(col="pink")
+```
+
 
 ```{r}
 nchar(best)
