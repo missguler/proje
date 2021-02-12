@@ -100,6 +100,120 @@ head(df1$demographic$weight)
 ```
 Gerekli donusumleri yaptik.
 
+```{r}
+#184 kişi hem bu hastalıktan ölmüş ve cinsiyeti kadın olarak belirlenmiştir.
+hemkadınhemölü <-df1$demographic %>% filter(gender == "female", vital_status == "Dead")
+str(hemkadınhemölü)
+```
+
+
+```{r}
+#308 kişi hem bu hastalıktan ölmüş ve cinsiyeti erkek olarak belirlenmiştir
+hemerkekhemölü <-df1$demographic %>% filter(gender == "male", vital_status == "Dead")
+str(hemerkekhemölü)
+```
+
+```{r}
+#55 erkek bu hastalıkla mücadeleye yenik düşmeden hala savaşmaktadır.
+hemerkekhemyaşayan <-df1$demographic %>% filter(gender == "male", vital_status == "Alive")
+str(hemerkekhemyaşayan)
+```
+
+
+```{r}
+#46 kadın bu hastalıkla mücadeleye yenik düşmeden hala savaşmaktadır.
+hemkadınhemyaşayan <-df1$demographic %>% filter(gender == "female", vital_status == "Alive")
+str(hemkadınhemyaşayan)
+```
+
+
+```{r}
+#Beyaz ırktan ölen sayısını bulduk:
+hemölühemwhite <-df1$demographic %>% filter(race == "white", vital_status == "Dead")
+str(hemölühemwhite)
+table(hemölühemwhite)
+```
+
+
+```{r}
+#Yaşayan beyaz ırk sayısını bulduk
+hemyaşayanhemwhite <-df1$demographic %>% filter(race == "white", vital_status == "Alive")
+str(hemyaşayanhemwhite)
+
+```
+
+```{r}
+#Asyalı ölen sayısını bulduk:
+hemölühemasian<-df1$demographic %>% filter(race == "asian", vital_status == "Dead")
+str(hemölühemasian)
+```
+
+```{r}
+#Yaşayan Asyalı sayısını bulduk:
+hemyaşayanhemasian <-df1$demographic %>% filter(race == "asian", vital_status == "Alive")
+str(hemyaşayanhemasian)
+```
+
+
+
+```{r}
+#Ölü Afrikan Amerikan sayısını bulduk
+hemölühemblackorafricanamerican <-df1$demographic %>% filter(race == "black or african american", vital_status == "Dead")
+str(hemölühemblackorafricanamerican)
+```
+
+```{r}
+#Yaşayan Afrikan Amerikan sayısını bulduk:
+hemyaşayanhemblackorafricanamerican <-df1$demographic %>% filter(race == "black or african american", vital_status == "Alive")
+str(hemyaşayanhemblackorafricanamerican)
+```
+
+
+
+```{r}
+#Ölmüş ama ırkı raporlanmamış kişi sayısını bulduk:
+hemölühemnotreported <-df1$demographic %>% filter(race == "not reported", vital_status == "Dead")
+str(hemölühemnotreported)
+```
+
+```{r}
+#Yaşayan ama ırkı raporlanmamış kişi sayısını bulduk:
+hemyaşayanhemnotreported <-df1$demographic %>% filter(race == "not reported", vital_status == "Alive")
+str(hemyaşayanhemnotreported)
+```
+
+
+
+```{r}
+#ergen yaş aralığında ölen sayısını bulduk:
+hemölühemergen <-df1$demographic %>% filter(hastalıkyas =="Ergen yaş aralığı", vital_status == "Dead")
+str(hemölühemergen)
+```
+
+```{r}
+#2000 yılı sonrası ölen erkek sayısı:
+ ikibinsonrasıölüerkek<-df1$demographic %>% filter(  yıllaragöre == "2000 sonrası ölüm" , gender == "male")
+str(ikibinsonrasıölüerkek)
+
+#2000 yılı sonrası ölen kadın sayısı:
+ ikibinsonrasıölükadın<-df1$demographic %>% filter(  yıllaragöre == "2000 sonrası ölüm" , gender == "female")
+str(ikibinsonrasıölükadın)
+```
+
+
+```{r}
+#2000 yılı ve öncesi ölen erkek sayısı
+ikibinöncesiölüerkek<-df1$demographic %>% filter( yıllaragöre == "2000 öncesi ölüm" , gender == "male")
+str(ikibinöncesiölüerkek)
+
+#2000 yılı ve  öncesi ölen kadın sayısı
+ikibinöncesiölükadın<-df1$demographic %>% filter( yıllaragöre == "2000 sonrası ölüm" , gender == "female")
+str(ikibinöncesiölükadın)
+```
+
+
+
+
 
 ```{r,message= FALSE}
 df4<- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/GitHub/Brain Tumor.csv")
