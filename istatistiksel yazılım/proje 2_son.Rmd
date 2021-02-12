@@ -30,7 +30,6 @@ library(ggridges)
 library(EBImage)
 library(emoGG)
 
-
 ```
 Burada kullandigimiz kutuphaneleri goreblirsiniz 
 
@@ -438,9 +437,6 @@ table(pten_paa_count,pten_pg_count ,pten_pc_count ,pten_pt_count )
 
 pten_nuk_dizilim  <- data.frame(nuk_sayi =c(pten_paa_count,pten_pg_count ,pten_pc_count,pten_pt_count) , nuk_adi = c("A", "G","C","T"))
 
-
-ggplot(pten_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
-
 ```
 
 
@@ -506,12 +502,6 @@ table(nf1_paa_count,nf1_pg_count ,nf1_pc_count ,nf1_pt_count )
 nf1_nuk_dizilim  <- data.frame(nf1_nuk_sayi =c(nf1_paa_count,nf1_pg_count ,nf1_pc_count,nf1_pt_count) , nf1_nuk_adi = c("A", "G","C","T"))
 
 
-ggplot(nf1_nuk_dizilim,aes(x=nf1_nuk_adi,y =nf1_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
-
-devtools::install_github("dill/emoGG")
-library(ggplot2)
-library(emoGG)
-
 ```
 
 ```{r,message= FALSE}
@@ -573,10 +563,6 @@ table(pik_paa_count,pik_pg_count ,pik_pc_count ,pik_pt_count )
 
 pik_nuk_dizilim  <- data.frame(pik_nuk_sayi =c(pik_paa_count,pik_pg_count ,pik_pc_count,pik_pt_count) , pik_nuk_adi = c("A", "G","C","T"))
 
-
-ggplot(pik_nuk_dizilim,aes(x=pik_nuk_adi,y =pik_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
-
-
 ```
 
 ```{r,message= FALSE}
@@ -637,9 +623,6 @@ table(egfr_paa_count,egfr_pg_count ,egfr_pc_count ,egfr_pt_count )
 
 egfr_nuk_dizilim  <- data.frame(egfr_nuk_sayi =c(egfr_paa_count,egfr_pg_count ,egfr_pc_count,egfr_pt_count) , egfr_nuk_adi = c("A", "G","C","T"))
 
-
-ggplot(egfr_nuk_dizilim,aes(x=egfr_nuk_adi,y =egfr_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
-
 ```
 
 ```{r,message= FALSE}
@@ -698,11 +681,6 @@ table(tp53_paa_count,tp53_pg_count ,tp53_pc_count ,tp53_pt_count )
 # A T G C nin sayilarinin gorselle?tirilmesi :
 
 tp53_nuk_dizilim  <- data.frame(tp53_nuk_sayi =c(tp53_paa_count,tp53_pg_count ,tp53_pc_count,tp53_pt_count) , tp53_nuk_adi = c("A", "G","C","T"))
-
-
-ggplot(tp53_nuk_dizilim,aes(x=tp53_nuk_adi,y =tp53_nuk_sayi) ) +  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
-
-
 ```
 
 ```{r}
@@ -764,7 +742,7 @@ table(best_paa_count,best_pg_count ,best_pc_count ,best_pt_count )
 
 best_nuk_dizilim <- data.frame(nuk_sayi =c(best_paa_count,best_pg_count ,best_pc_count,best_pt_count) , nuk_adi = c("A", "G","C","T"))
 
-ggplot(best_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
+
 ```
 
 ```{r}
@@ -827,7 +805,6 @@ table(guld_paa_count,guld_pg_count ,guld_pc_count ,guld_pt_count )
 
 guld_nuk_dizilim <- data.frame(nuk_sayi =c(guld_paa_count,guld_pg_count ,guld_pc_count,guld_pt_count) , nuk_adi = c("A", "G","C","T"))
 
-ggplot(guld_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
 ```
 
 ```{r}
@@ -893,11 +870,25 @@ table(ap0b_paa_count,ap0b_pg_count ,ap0b_pc_count ,ap0b_pt_count )
 
 ap0b_nuk_dizilim <- data.frame(nuk_sayi =c(ap0b_paa_count,ap0b_pg_count ,ap0b_pc_count,ap0b_pt_count) , nuk_adi = c("A", "G","C","T"))
 
-ggplot(ap0b_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
 ```
 
+```{r}
+ggplot(pten_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
+ggplot(nf1_nuk_dizilim,aes(x=nf1_nuk_adi,y =nf1_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
+ggplot(pik_nuk_dizilim,aes(x=pik_nuk_adi,y =pik_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+
+ggplot(egfr_nuk_dizilim,aes(x=egfr_nuk_adi,y =egfr_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+
+ggplot(tp53_nuk_dizilim,aes(x=tp53_nuk_adi,y =tp53_nuk_sayi) ) +  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+
+ggplot(best_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
+
+ggplot(guld_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
+
+ggplot(ap0b_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
+```
 
 
 ```{r,message= FALSE}
@@ -940,128 +931,6 @@ str_view(pten1, pattern = patten7, match = TRUE)
 patten8 <- ("t") %R% ("a") %R% ("t")
 
 str_view(pten1, pattern = patten8, match = TRUE)
-
-
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
