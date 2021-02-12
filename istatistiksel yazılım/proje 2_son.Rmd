@@ -115,6 +115,15 @@ pairs(d, bg=lab2col(df4$Class), col=0)
 
 Datamizdaki mri goruntulerini daha iyi anlamak icin df4 deki dataframeden class hastaliga sahip ve sahip olmayan kisilerin mri goruntulerinin diger degiskenlerle olan iliskilerini anlamak icin grafik cizdirdik.
 
+```{r}
+df1$demographic = mutate(df1$demographic,yillar_arasi = case_when(df1$demographic$year_of_death <=2000~"2000 ve öncesi ölüm",
+df1$demographic$year_of_death>2000 ~"2000 sonrası ölüm",
+
+is.na(df1$demographic$year_of_death==TRUE)~NA_character_))
+table(df1$demographic$yillar_arasi)
+
+```
+Olum yillarini 2000 ve oncesi olum , 2000 sonrasi olum olarak iki ayri duruma ayirdik Daha sonra bu durumlarun tablosunu olusturduk.
 
 ```{r,message= FALSE}
 
