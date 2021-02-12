@@ -1,8 +1,0 @@
----
-title: "istatistiksel yazılım"
-author: "proje grup"
-date: "10 01 2021"
-output: pdf_document
----
-
-## Kızlar bütün proje buranın üzerinden olacak yani ana projemiz burası
