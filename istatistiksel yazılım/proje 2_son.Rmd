@@ -316,7 +316,7 @@ table(pten_paa_count,pten_pg_count ,pten_pc_count ,pten_pt_count )
 pten_nuk_dizilim  <- data.frame(nuk_sayi =c(pten_paa_count,pten_pg_count ,pten_pc_count,pten_pt_count) , nuk_adi = c("A", "G","C","T"))
 
 
-ggplot(pten_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) +geom_point()
+ggplot(pten_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
 ```
 
@@ -383,9 +383,11 @@ table(nf1_paa_count,nf1_pg_count ,nf1_pc_count ,nf1_pt_count )
 nf1_nuk_dizilim  <- data.frame(nf1_nuk_sayi =c(nf1_paa_count,nf1_pg_count ,nf1_pc_count,nf1_pt_count) , nf1_nuk_adi = c("A", "G","C","T"))
 
 
-ggplot(nf1_nuk_dizilim,aes(x=nf1_nuk_adi,y =nf1_nuk_sayi) ) +geom_point()
+ggplot(nf1_nuk_dizilim,aes(x=nf1_nuk_adi,y =nf1_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
-
+devtools::install_github("dill/emoGG")
+library(ggplot2)
+library(emoGG)
 
 ```
 
@@ -449,7 +451,7 @@ table(pik_paa_count,pik_pg_count ,pik_pc_count ,pik_pt_count )
 pik_nuk_dizilim  <- data.frame(pik_nuk_sayi =c(pik_paa_count,pik_pg_count ,pik_pc_count,pik_pt_count) , pik_nuk_adi = c("A", "G","C","T"))
 
 
-ggplot(pik_nuk_dizilim,aes(x=pik_nuk_adi,y =pik_nuk_sayi) ) +geom_point()
+ggplot(pik_nuk_dizilim,aes(x=pik_nuk_adi,y =pik_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
 
 ```
@@ -513,7 +515,7 @@ table(egfr_paa_count,egfr_pg_count ,egfr_pc_count ,egfr_pt_count )
 egfr_nuk_dizilim  <- data.frame(egfr_nuk_sayi =c(egfr_paa_count,egfr_pg_count ,egfr_pc_count,egfr_pt_count) , egfr_nuk_adi = c("A", "G","C","T"))
 
 
-ggplot(egfr_nuk_dizilim,aes(x=egfr_nuk_adi,y =egfr_nuk_sayi) ) +geom_point()
+ggplot(egfr_nuk_dizilim,aes(x=egfr_nuk_adi,y =egfr_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
 ```
 
@@ -575,7 +577,7 @@ table(tp53_paa_count,tp53_pg_count ,tp53_pc_count ,tp53_pt_count )
 tp53_nuk_dizilim  <- data.frame(tp53_nuk_sayi =c(tp53_paa_count,tp53_pg_count ,tp53_pc_count,tp53_pt_count) , tp53_nuk_adi = c("A", "G","C","T"))
 
 
-ggplot(tp53_nuk_dizilim,aes(x=tp53_nuk_adi,y =tp53_nuk_sayi) ) +geom_point()
+ggplot(tp53_nuk_dizilim,aes(x=tp53_nuk_adi,y =tp53_nuk_sayi) ) +  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
 
 ```
