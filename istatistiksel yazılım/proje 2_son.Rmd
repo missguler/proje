@@ -28,7 +28,6 @@ library(ggplot2)
 library(gghighcontrast)
 library(ggridges)
 library(EBImage)
-library(emoGG)
 
 ```
 Burada kullandigimiz kutuphaneleri goreblirsiniz 
@@ -50,32 +49,18 @@ data1<- data.frame(df1,df2)
 ```
 
 **Kesifci Data Analizi**
-Datadaki mri goruntulerine goz atmak icin bir kacini ekledik.
-```{r ,message=FALSE}
+Datadaki mri goruntulerine goz atmak icin birini ekledik.
+```{r ,message=FALSE,warning=FALSE}
 
 img = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y1.jpg")
-img1 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y2.jpg")
-img2 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y3.jpg")
-img4 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y4.jpg")
-img11 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y11.jpg")
-img6 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y6.jpg")
-img7 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y7.jpg")
-img8 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y8.jpg")
-img9 = readImage("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/yes/Y9.jpg")
+
 display(img)
-display(img1)
-display(img2)
-display(img4)
-display(img11)
-display(img6)
-display(img7)
-display(img8)
-display(img9)
+
 
 ```
 
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 
 attach(df1)
 df1$demographic <- df1$demographic[,-c(14:17,8)]
@@ -99,122 +84,11 @@ head(df1$demographic$weight)
 ```
 Gerekli donusumleri yaptik.
 
-```{r}
-#184 kişi hem bu hastalıktan ölmüş ve cinsiyeti kadın olarak belirlenmiştir.
-hemkadınhemölü <-df1$demographic %>% filter(gender == "female", vital_status == "Dead")
-str(hemkadınhemölü)
-```
-
-
-```{r}
-#308 kişi hem bu hastalıktan ölmüş ve cinsiyeti erkek olarak belirlenmiştir
-hemerkekhemölü <-df1$demographic %>% filter(gender == "male", vital_status == "Dead")
-str(hemerkekhemölü)
-```
-
-```{r}
-#55 erkek bu hastalıkla mücadeleye yenik düşmeden hala savaşmaktadır.
-hemerkekhemyaşayan <-df1$demographic %>% filter(gender == "male", vital_status == "Alive")
-str(hemerkekhemyaşayan)
-```
-
-
-```{r}
-#46 kadın bu hastalıkla mücadeleye yenik düşmeden hala savaşmaktadır.
-hemkadınhemyaşayan <-df1$demographic %>% filter(gender == "female", vital_status == "Alive")
-str(hemkadınhemyaşayan)
-```
-
-
-```{r}
-#Beyaz ırktan ölen sayısını bulduk:
-hemölühemwhite <-df1$demographic %>% filter(race == "white", vital_status == "Dead")
-str(hemölühemwhite)
-table(hemölühemwhite)
-```
-
-
-```{r}
-#Yaşayan beyaz ırk sayısını bulduk
-hemyaşayanhemwhite <-df1$demographic %>% filter(race == "white", vital_status == "Alive")
-str(hemyaşayanhemwhite)
-
-```
-
-```{r}
-#Asyalı ölen sayısını bulduk:
-hemölühemasian<-df1$demographic %>% filter(race == "asian", vital_status == "Dead")
-str(hemölühemasian)
-```
-
-```{r}
-#Yaşayan Asyalı sayısını bulduk:
-hemyaşayanhemasian <-df1$demographic %>% filter(race == "asian", vital_status == "Alive")
-str(hemyaşayanhemasian)
-```
-
-
-
-```{r}
-#Ölü Afrikan Amerikan sayısını bulduk
-hemölühemblackorafricanamerican <-df1$demographic %>% filter(race == "black or african american", vital_status == "Dead")
-str(hemölühemblackorafricanamerican)
-```
-
-```{r}
-#Yaşayan Afrikan Amerikan sayısını bulduk:
-hemyaşayanhemblackorafricanamerican <-df1$demographic %>% filter(race == "black or african american", vital_status == "Alive")
-str(hemyaşayanhemblackorafricanamerican)
-```
-
-
-
-```{r}
-#Ölmüş ama ırkı raporlanmamış kişi sayısını bulduk:
-hemölühemnotreported <-df1$demographic %>% filter(race == "not reported", vital_status == "Dead")
-str(hemölühemnotreported)
-```
-
-```{r}
-#Yaşayan ama ırkı raporlanmamış kişi sayısını bulduk:
-hemyaşayanhemnotreported <-df1$demographic %>% filter(race == "not reported", vital_status == "Alive")
-str(hemyaşayanhemnotreported)
-```
-
-
-
-```{r}
-#ergen yaş aralığında ölen sayısını bulduk:
-hemölühemergen <-df1$demographic %>% filter(hastalıkyas =="Ergen yaş aralığı", vital_status == "Dead")
-str(hemölühemergen)
-```
-
-```{r}
-#2000 yılı sonrası ölen erkek sayısı:
- ikibinsonrasıölüerkek<-df1$demographic %>% filter(  yıllaragöre == "2000 sonrası ölüm" , gender == "male")
-str(ikibinsonrasıölüerkek)
-
-#2000 yılı sonrası ölen kadın sayısı:
- ikibinsonrasıölükadın<-df1$demographic %>% filter(  yıllaragöre == "2000 sonrası ölüm" , gender == "female")
-str(ikibinsonrasıölükadın)
-```
-
-
-```{r}
-#2000 yılı ve öncesi ölen erkek sayısı
-ikibinöncesiölüerkek<-df1$demographic %>% filter( yıllaragöre == "2000 öncesi ölüm" , gender == "male")
-str(ikibinöncesiölüerkek)
-
-#2000 yılı ve  öncesi ölen kadın sayısı
-ikibinöncesiölükadın<-df1$demographic %>% filter( yıllaragöre == "2000 sonrası ölüm" , gender == "female")
-str(ikibinöncesiölükadın)
-```
 
 
 
 
-
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 df4<- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/GitHub/Brain Tumor.csv")
 
 
@@ -228,17 +102,8 @@ pairs(d, bg=lab2col(df4$Class), col=0)
 
 Datamizdaki mri goruntulerini daha iyi anlamak icin df4 deki dataframeden class hastaliga sahip ve sahip olmayan kisilerin mri goruntulerinin diger degiskenlerle olan iliskilerini anlamak icin grafik cizdirdik.
 
-```{r}
-df1$demographic = mutate(df1$demographic,yillar_arasi = case_when(df1$demographic$year_of_death <=2000~"2000 ve öncesi ölüm",
-df1$demographic$year_of_death>2000 ~"2000 sonrası ölüm",
 
-is.na(df1$demographic$year_of_death==TRUE)~NA_character_))
-table(df1$demographic$yillar_arasi)
-
-```
-Olum yillarini 2000 ve oncesi olum , 2000 sonrasi olum olarak iki ayri duruma ayirdik Daha sonra bu durumlarun tablosunu olusturduk.
-
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 
 ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_density_ridges()
 ```
@@ -246,7 +111,7 @@ ggplot(df1$demographic, aes(x = days_to_death, y =gender,fill=race )) + geom_den
 Datadaki irk  degiskenine bakmak icin grafik cizdirdik.
 
 
-```{r, message= FALSE}
+```{r, message= FALSE,warning=FALSE}
 data<-df1$demographic %>%
   select(gender,race,age_at_index ,vital_status , ethnicity)
 
@@ -272,13 +137,13 @@ plot_bar_high_contrast <-
            caption = "Gliomas Data")
     return(plot)
   }
-p <- plot_bar_high_contrast(data$vital_status)
+p <- plot_bar_high_contrast(data$race )
 p
 
 ```
 Buradaka ise demografik degiskenlerin yasa gore dagilimlarini bulabilmek icin  grafik cizdiren bir fonk yazdik.
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 df1$demographic = mutate(df1$demographic,hastalikyas = case_when(df1$demographic$age_at_index<=17~"Ergen yas araligi",
                                             df1$demographic$age_at_index>18 & df1$demographic$age_at_index<=45~"Genc yas araligi",
                                             df1$demographic$age_at_index>46 & df1$demographic$age_at_index<=65~"Orta yas araligi",
@@ -291,7 +156,7 @@ table(df1$demographic$hastalikyas)
 yaslari kendi aralarinda kategorilere ayirdik.
 
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 df10<- df1$demographic %>% 
    filter(vital_status=="Dead")%>%
   group_by(gender)%>% 
@@ -304,7 +169,7 @@ cyber_bars(df11, area = FALSE, bg.col = "black")
 ```
 Bu kisimda olen kisilerin cinsiyetlerini anlamaya calistik.
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 df8<- df1$demographic %>%
   filter(vital_status=="Dead")%>%
   group_by(hastalikyas)%>% 
@@ -334,7 +199,7 @@ ggplot(genc_olum) +
 Burada ise genc yasta olenlerin teshisten- olumune kadar gecen surelerine baktik
 
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 
 yasli_olum <-df1$demographic%>%
   filter(hastalikyas=="Yasli") %>%
@@ -349,7 +214,7 @@ ggplot(yasli_olum) +
 ```
 Burada ise yasli olumlerinin olume kadar gecen surelerine baktik genis bir skalada olmasi ilgimizi cekti.
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 df6 = data.frame(A=c(df1$demographic$age_at_index),
                Time=c(df1$demographic$year_of_deat)) %>%
 pivot_longer(cols = c(A),names_to = "group", values_to = "count")
@@ -366,7 +231,7 @@ df6 %>%
 
 Burada ise yillara gore hnagi yas araliklarinda olumlerine baktik. Zaman gectikce bu hastaliga yakalanan insanlarin yas aralignin genisledigini bulduk.
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 
 kanser_geni <- df3 %>%
              filter(is_cancer_gene_census == "true")%>%
@@ -375,7 +240,7 @@ kanser_geni
 ```
 Datayi incelerken bazi genlerin kanserle iliskili oldugunu varsaydiklarini gorduk. Biz de bu genlerin sayisini gormeye calistik.
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 Pten <- read.delim("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/Pten.txt")
 nchar(Pten)
 head(Pten)
@@ -440,7 +305,7 @@ pten_nuk_dizilim  <- data.frame(nuk_sayi =c(pten_paa_count,pten_pg_count ,pten_p
 ```
 
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 library(readr)
 nf1 <- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/NF1.txt")
 nchar(nf1)
@@ -504,7 +369,7 @@ nf1_nuk_dizilim  <- data.frame(nf1_nuk_sayi =c(nf1_paa_count,nf1_pg_count ,nf1_p
 
 ```
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 pik<- read.table("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/PIK3R1.txt", quote="\"")
 
 
@@ -565,7 +430,7 @@ pik_nuk_dizilim  <- data.frame(pik_nuk_sayi =c(pik_paa_count,pik_pg_count ,pik_p
 
 ```
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 egfr <- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/egfr.txt")
 
 # egfr genindeki t varyasyonlari
@@ -625,7 +490,7 @@ egfr_nuk_dizilim  <- data.frame(egfr_nuk_sayi =c(egfr_paa_count,egfr_pg_count ,e
 
 ```
 
-```{r,message= FALSE}
+```{r,message= FALSE ,warning=FALSE}
 tp53 <- read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/tp53.txt")
 
 # tp53 genindeki t varyasyonlari
@@ -683,11 +548,12 @@ table(tp53_paa_count,tp53_pg_count ,tp53_pc_count ,tp53_pt_count )
 tp53_nuk_dizilim  <- data.frame(tp53_nuk_sayi =c(tp53_paa_count,tp53_pg_count ,tp53_pc_count,tp53_pt_count) , tp53_nuk_adi = c("A", "G","C","T"))
 ```
 
-```{r}
+```{r,warning=FALSE}
+
+best<-read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/best.txt")
 nchar(best)
 head(best)
 head(best)
-
 # best genindeki t varyasyonlari
 separator <- char_class(" ")
 pattern_t_best <- zero_or_more(separator) %R% one_or_more("t") %R%zero_or_more(separator)
@@ -713,6 +579,7 @@ best_paa_count <- str_count(best, pattern=pattern_aa_best)
 best_paa_count <-sum(best_paa_count)
 
 # best genindeki g sayisi
+pattern_g_best <- zero_or_more(separator) %R% one_or_more("g") %R%zero_or_more(separator)
 best_pg_count <- str_count(best, pattern=pattern_g_best)
 
 best_pg_count <- sum(best_pg_count)
@@ -745,8 +612,8 @@ best_nuk_dizilim <- data.frame(nuk_sayi =c(best_paa_count,best_pg_count ,best_pc
 
 ```
 
-```{r}
- guld<-read.csv("guld.txt")
+```{r,warning=FALSE}
+ guld<-read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/guld.txt")
 nchar(guld)
 head(guld)
 head(guld)
@@ -807,8 +674,8 @@ guld_nuk_dizilim <- data.frame(nuk_sayi =c(guld_paa_count,guld_pg_count ,guld_pc
 
 ```
 
-```{r}
- ap0b<-read.csv("ap0b.txt")
+```{r,warning=FALSE}
+ ap0b<-read_csv("C:/Users/Dell/Dropbox/My PC (DESKTOP-EB8G4PC)/Desktop/ap0b.txt")
 
 nchar(ap0b)
 head(ap0b)
@@ -872,7 +739,7 @@ ap0b_nuk_dizilim <- data.frame(nuk_sayi =c(ap0b_paa_count,ap0b_pg_count ,ap0b_pc
 
 ```
 
-```{r}
+```{r,warning=FALSE}
 ggplot(pten_nuk_dizilim,aes(x=nuk_adi,y =nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
 ggplot(nf1_nuk_dizilim,aes(x=nf1_nuk_adi,y =nf1_nuk_sayi) ) + geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
@@ -883,15 +750,10 @@ ggplot(egfr_nuk_dizilim,aes(x=egfr_nuk_adi,y =egfr_nuk_sayi) ) + geom_point(shap
 
 ggplot(tp53_nuk_dizilim,aes(x=tp53_nuk_adi,y =tp53_nuk_sayi) ) +  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
-ggplot(best_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
-
-ggplot(guld_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
-
-ggplot(ap0b_nuk_dizilim, aes(nuk_adi, nuk_sayi))+ geom_emoji(emoji="2697")+theme_dark()
 ```
 
 
-```{r,message= FALSE}
+```{r,message= FALSE,warning=FALSE}
 # PTEN geni kombinasyonlarina bakma :
 head(pten1,30)
 separator <- char_class(" ")
